@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-actor ImageCacheManager {
+struct ImageCacheManager {
     private let urlCache = URLCache.shared
     
     init() {
@@ -15,7 +15,7 @@ actor ImageCacheManager {
         self.urlCache.memoryCapacity = 1024 * 1024 * 50
     }
     
-    public func fetchImage(_ urlString: String) async throws -> UIImage? {
+    func fetchImage(_ urlString: String) async throws -> Image? {
         guard let url = URL(string: urlString) else { return nil }
         
         let request = URLRequest(url: url)
@@ -31,7 +31,7 @@ actor ImageCacheManager {
             urlCache.storeCachedResponse(cachedResponse, for: request)
             uiImage = UIImage(data: data)
         }
-        
-        return uiImage
+        guard let uiImage else { return nil }
+        return Image(uiImage: uiImage)
     }
 }
