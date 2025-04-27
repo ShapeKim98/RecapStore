@@ -13,12 +13,18 @@ struct SearchResult: Decodable {
     let trackName: String
     let trackId: Int
     let price: Double?
-    let averageUserRating: Double
-    let userRatingCount: Int
+    let genres: [String]
+    let minimumOsVersion: String
+}
+
+extension SearchResult: RSAppCellDisplayable {
+    var subtitle: String {
+        self.genres.joined(separator: ", ")
+    }
 }
 
 extension [SearchResult] {
-    static let mock: SearchResult = SearchResult(
+    static let mock = SearchResult(
         screenshotUrls: [
             "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/3b/44/c1/3b44c1ea-3367-f7a4-2c27-76f5bbe8a4d3/2863754d-fcf9-44ca-b2e4-a3779fe92e4e_1_1242_2208.jpg/392x696bb.jpg",
             "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/a1/c6/8f/a1c68f28-8549-d694-ffad-a0a8110dc64f/fd677b73-64bb-415b-be6b-ce52da504705_2_1242_2208.jpg/392x696bb.jpg",
@@ -34,8 +40,8 @@ extension [SearchResult] {
         trackName: "카카오 T - 택시, 대리, 주차, 바이크, 항공, 퀵",
         trackId: 981110422,
         price: 0.0,
-        averageUserRating: 4.72239,
-        userRatingCount: 463215
+        genres: ["여행", "라이프스타일"],
+        minimumOsVersion: "15.0"
     )
     
     static let mockList: [SearchResult] = [
@@ -55,8 +61,8 @@ extension [SearchResult] {
             trackName: "카카오 T - 택시, 대리, 주차, 바이크, 항공, 퀵",
             trackId: 981110422,
             price: 0.0,
-            averageUserRating: 4.72239,
-            userRatingCount: 463215
+            genres: ["여행", "라이프스타일"],
+            minimumOsVersion: "15.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -75,8 +81,8 @@ extension [SearchResult] {
             trackName: "카카오맵 - 대한민국 No.1 지도앱",
             trackId: 304608425,
             price: 0.0,
-            averageUserRating: 4.67535,
-            userRatingCount: 150092
+            genres: ["내비게이션", "여행"],
+            minimumOsVersion: "15.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -92,8 +98,8 @@ extension [SearchResult] {
             trackName: "카카오페이",
             trackId: 1464496236,
             price: 0.0,
-            averageUserRating: 4.63665,
-            userRatingCount: 28738
+            genres: ["금융", "라이프스타일"],
+            minimumOsVersion: "14.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -107,8 +113,8 @@ extension [SearchResult] {
             trackName: "카카오톡",
             trackId: 362057947,
             price: 0.0,
-            averageUserRating: 3.00818,
-            userRatingCount: 143836
+            genres: ["소셜 네트워킹", "유틸리티"],
+            minimumOsVersion: "15.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -125,8 +131,8 @@ extension [SearchResult] {
             trackName: "카카오웹툰 – KAKAO WEBTOON",
             trackId: 736602666,
             price: 0.0,
-            averageUserRating: 4.07848,
-            userRatingCount: 27981
+            genres: ["도서", "엔터테인먼트"],
+            minimumOsVersion: "15.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -143,8 +149,8 @@ extension [SearchResult] {
             trackName: "카카오뱅크",
             trackId: 1258016944,
             price: 0.0,
-            averageUserRating: 3.34161,
-            userRatingCount: 13284
+            genres: ["금융"],
+            minimumOsVersion: "15.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -158,8 +164,8 @@ extension [SearchResult] {
             trackName: "카카오지하철",
             trackId: 1095533900,
             price: 0.0,
-            averageUserRating: 1.68894,
-            userRatingCount: 4025
+            genres: ["여행", "내비게이션"],
+            minimumOsVersion: "12.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -177,8 +183,8 @@ extension [SearchResult] {
             trackName: "카카오내비 - 주차,발렛,전기차충전,세차,보험,중고차",
             trackId: 417698849,
             price: 0.0,
-            averageUserRating: 2.31931,
-            userRatingCount: 8042
+            genres: ["내비게이션", "여행"],
+            minimumOsVersion: "15.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -192,8 +198,8 @@ extension [SearchResult] {
             trackName: "마메드네",
             trackId: 1173776109,
             price: 0.0,
-            averageUserRating: 4.80539,
-            userRatingCount: 72547
+            genres: ["교육", "의료"],
+            minimumOsVersion: "13.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -211,8 +217,8 @@ extension [SearchResult] {
             trackName: "카카오페이지",
             trackId: 616643813,
             price: 0.0,
-            averageUserRating: 2.57444,
-            userRatingCount: 11714
+            genres: ["도서", "엔터테인먼트"],
+            minimumOsVersion: "14.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -225,8 +231,8 @@ extension [SearchResult] {
             trackName: "카카오뮤직 KakaoMusic",
             trackId: 696690152,
             price: 0.0,
-            averageUserRating: 2.52842,
-            userRatingCount: 774
+            genres: ["음악", "엔터테인먼트"],
+            minimumOsVersion: "12.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -242,8 +248,8 @@ extension [SearchResult] {
             trackName: "카카오 T 대리",
             trackId: 1110271804,
             price: 0.0,
-            averageUserRating: 2.91935,
-            userRatingCount: 496
+            genres: ["여행", "라이프스타일"],
+            minimumOsVersion: "14.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -259,8 +265,8 @@ extension [SearchResult] {
             trackName: "카카오골프예약",
             trackId: 1423489983,
             price: 0.0,
-            averageUserRating: 4.79748,
-            userRatingCount: 35329
+            genres: ["스포츠", "여행"],
+            minimumOsVersion: "13.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -276,8 +282,8 @@ extension [SearchResult] {
             trackName: "Spotify (스포티파이) : 뮤직 & 팟캐스트 앱",
             trackId: 324684580,
             price: 0.0,
-            averageUserRating: 4.79016,
-            userRatingCount: 318756
+            genres: ["음악", "엔터테인먼트"],
+            minimumOsVersion: "15.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -292,8 +298,8 @@ extension [SearchResult] {
             trackName: "카카오스토리",
             trackId: 486244601,
             price: 0.0,
-            averageUserRating: 2.78818,
-            userRatingCount: 6614
+            genres: ["소셜 네트워킹", "사진 및 비디오"],
+            minimumOsVersion: "13.0"
         ),
         SearchResult(
             screenshotUrls: [],
@@ -301,8 +307,8 @@ extension [SearchResult] {
             trackName: "카카오톡 채널 관리자",
             trackId: 990571676,
             price: 0.0,
-            averageUserRating: 2.38405,
-            userRatingCount: 690
+            genres: ["비즈니스", "소셜 네트워킹"],
+            minimumOsVersion: "13.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -319,8 +325,8 @@ extension [SearchResult] {
             trackName: "헤이카카오 Hey Kakao",
             trackId: 1286618447,
             price: 0.0,
-            averageUserRating: 2.28245,
-            userRatingCount: 963
+            genres: ["엔터테인먼트", "라이프스타일"],
+            minimumOsVersion: "13.0"
         ),
         SearchResult(
             screenshotUrls: [
@@ -334,8 +340,8 @@ extension [SearchResult] {
             trackName: "픽셀 히어로",
             trackId: 1670875186,
             price: 0.0,
-            averageUserRating: 4.59128,
-            userRatingCount: 23767
+            genres: ["게임", "액션", "롤플레잉"],
+            minimumOsVersion: "12.0"
         )
     ]
 }
