@@ -7,16 +7,16 @@
 
 import SwiftUI
 
-struct CachedAsyncImage: View {
+struct CachedAsyncImage<ImageContent: View>: View {
     @State
     private var phase: Phase = .loading
     
     let urlString: String
-    let content: (Image) -> Image
+    let content: (Image) -> ImageContent
     
     let imageCacheManager = ImageCacheManager()
     
-    init(url: String, content: @escaping (Image) -> Image) {
+    init(url: String, content: @escaping (Image) -> ImageContent) {
         self.urlString = url
         self.content = content
     }
@@ -62,7 +62,9 @@ extension CachedAsyncImage {
 }
 
 #Preview {
-    CachedAsyncImage(url: "https://dummyimage.co/300") { image in
+    CachedAsyncImage(url: "https://dummyimage.com/300") { image in
         image
+            .rotateVertical()
+            .rsImageStyle()
     }
 }
