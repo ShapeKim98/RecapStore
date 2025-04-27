@@ -23,27 +23,29 @@ extension SearchResult: RSAppCellDisplayable {
     }
 }
 
-extension [SearchResult] {
+extension SearchResult {
     static let mock = SearchResult(
         screenshotUrls: [
-            "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/3b/44/c1/3b44c1ea-3367-f7a4-2c27-76f5bbe8a4d3/2863754d-fcf9-44ca-b2e4-a3779fe92e4e_1_1242_2208.jpg/392x696bb.jpg",
-            "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/a1/c6/8f/a1c68f28-8549-d694-ffad-a0a8110dc64f/fd677b73-64bb-415b-be6b-ce52da504705_2_1242_2208.jpg/392x696bb.jpg",
-            "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/9b/d9/dc/9bd9dcc4-d04e-6c0e-805a-876d4962b761/c2a6c2f0-68ca-433b-b4fc-9e89af7476e9_3_1242_2208.jpg/392x696bb.jpg",
-            "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/aa/59/8e/aa598e52-fb91-db8a-4fe5-90349bb83d45/62309ee7-489b-4b80-b79b-b4c02c5f4130_4_1242_2208.jpg/392x696bb.jpg",
-            "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/6e/cd/2c/6ecd2c0b-a4b6-3d32-c981-ce26819516cd/6eb6f461-fbb4-4038-9abb-cacd32e07d5d_5_1242_2208.jpg/392x696bb.jpg",
-            "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/da/f2/28/daf228b3-e42c-d2ed-b994-7e854a0adb26/6c551c33-b8b3-4b98-b79b-41c8d57dece3_6_1242_2208.jpg/392x696bb.jpg",
-            "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource211/v4/6d/63/e9/6d63e92d-d446-a423-7bf5-879f06ca5a1e/c19cdd27-1382-4704-9635-06cc3c9d6028_7_1242_2208.jpg/392x696bb.jpg",
-            "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/93/29/2b/93292bb6-7b91-f3f0-a27e-2b2aa2dc191b/475e2e5e-9d4e-4cb9-a5bc-cd68fd09dd83_8_1242_2208.jpg/392x696bb.jpg",
-            "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource221/v4/78/4b/5e/784b5e0d-ab12-4134-cd40-0a23084cd272/95110afa-c1ae-453e-ba03-31e0c5f2f232_9_1242_2208.jpg/392x696bb.jpg"
+            "https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/eb/04/a9/eb04a9cc-aa8c-365a-7bb6-e6a1bfe02357/e7f3c4ec-57ec-4e6d-a01e-fa56bb5fecf8_ios_1242x2208_s1_1__U00281_U0029.jpg/392x696bb.jpg",
+            "https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/8f/74/ee/8f74ee4d-1ea4-128c-a771-697ad0b4d160/e916e554-fc68-4069-a05b-4fdedb5553b1_ios_1242x2208_s1_2.jpg/392x696bb.jpg",
+            "https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/23/8b/d7/238bd70f-5879-ab87-d8f4-28b6e829fc5d/ed77ab45-a89b-46ea-98c9-281377d961f1_ios_1242x2208_s6.png/392x696bb.png",
+            "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource116/v4/3c/c0/b2/3cc0b221-77da-0fa0-afe9-fa975df684f0/3b23bc3b-003c-4f82-98a3-f7fb61cb4c4c_ios_1242x2208__U1102_U1162_U1107_U1175_U1112_U1169_U11b7.jpg/392x696bb.jpg",
+            "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource126/v4/45/fa/4f/45fa4f23-292c-4c8e-4361-44bfae717c69/d508565e-a6de-4654-b184-052321ec5046_ios_1242x2208__U1100_U1167_U11bc_U1110_U1161_U11b7.jpg/392x696bb.jpg",
+            "https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/56/ef/97/56ef97e3-d87c-c68a-a1a9-4d77a59fc87d/0404dfb0-0e3c-442c-ad7d-58d0a6286392_ios_1242x2208_s15.png/392x696bb.png",
+            "https://is1-ssl.mzstatic.com/image/thumb/Purple126/v4/01/66/3e/01663eb2-588e-6fca-5e90-ec803bbbf59c/51d05ea5-8845-4dba-bc22-96b00e7409fb_ios_1242x2208_s14.png/392x696bb.png",
+            "https://is1-ssl.mzstatic.com/image/thumb/PurpleSource116/v4/d6/04/a8/d604a84a-a6ae-b1e6-350f-71c82f2b4c1b/78bc332a-d0b6-4cbf-a83f-d8b7be64de8d_ios_1242x2208_s13.jpg/392x696bb.jpg",
+            "https://is1-ssl.mzstatic.com/image/thumb/Purple116/v4/6f/dc/d0/6fdcd0b1-a5ce-350e-d30a-d480ec0462ed/aaa4282f-24f9-40e2-b258-ef6259e5a947_ios_1242x2208_s7.jpg/392x696bb.jpg"
         ],
-        artworkUrl60: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/a0/06/ff/a006ff41-49bb-0bab-3ea9-ef04d9798146/AppIcon-0-0-1x_U007emarketing-0-7-0-85-220.png/60x60bb.jpg",
-        trackName: "카카오 T - 택시, 대리, 주차, 바이크, 항공, 퀵",
-        trackId: 981110422,
+        artworkUrl60: "https://is1-ssl.mzstatic.com/image/thumb/Purple221/v4/38/9c/79/389c793a-da98-e2f8-15c0-6f8e56288a13/AppIcon-0-0-1x_U007epad-0-11-0-85-220.png/60x60bb.jpg",
+        trackName: "카카오내비 - 주차,발렛,전기차충전,세차,보험,중고차",
+        trackId: 417698849,
         price: 0.0,
-        genres: ["여행", "라이프스타일"],
+        genres: ["내비게이션", "여행"],
         minimumOsVersion: "15.0"
     )
-    
+}
+
+extension [SearchResult] {
     static let mockList: [SearchResult] = [
         SearchResult(
             screenshotUrls: [

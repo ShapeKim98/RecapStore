@@ -57,6 +57,7 @@ struct RSDownloadButtonStyle: ButtonStyle {
                     .foregroundStyle(.blue)
             }
         }
+        .transition(.blurReplace)
         .font(.subheadline)
         .fontWeight(.bold)
         .frame(width: 80)
