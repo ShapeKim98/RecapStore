@@ -21,8 +21,7 @@ final class RSAppCellViewModel {
     
     let app: RSAppCellDisplayable
     
-    var downloadState: RSDownloadButtonStyle.ButtonState = .default
-    var downloadButtonTitle = "받기"
+    var downloadState: RSDownloadButtonStyle.ButtonState = .default("받기")
     
     init(app: RSAppCellDisplayable) {
         self.app = app
@@ -30,12 +29,10 @@ final class RSAppCellViewModel {
         
         guard let progress else { return }
         if progress >= 1 {
-            downloadState = .default
-            downloadButtonTitle = "완료"
+            downloadState = .default("열기")
         } else if progress == 0 {
             downloadState = .again
         } else {
-            downloadButtonTitle = "재개"
             downloadState = .resume
         }
     }
@@ -81,8 +78,7 @@ private extension RSAppCellViewModel {
                 if progress >= 1 {
                     downloadTask?.cancel()
                     downloadTask = nil
-                    downloadState = .default
-                    downloadButtonTitle = "완료"
+                    downloadState = .default("열기")
                 }
                 time = now
             }
@@ -93,6 +89,5 @@ private extension RSAppCellViewModel {
         downloadTask?.cancel()
         downloadTask = nil
         downloadState = .resume
-        downloadButtonTitle = "재개"
     }
 }

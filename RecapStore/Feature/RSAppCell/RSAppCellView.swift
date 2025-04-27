@@ -37,7 +37,7 @@ struct RSAppCellView: View {
             }
             .frame(maxWidth: .infinity)
             
-            Button(viewModel.downloadButtonTitle) {
+            Button(viewModel.downloadState.title) {
                 viewModel.downloadButtonAction()
             }
             .buttonStyle(.download(viewModel.downloadState))

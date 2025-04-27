@@ -62,7 +62,11 @@ struct RSDownloadButtonStyle: ButtonStyle {
         .fontWeight(.bold)
         .frame(width: 80)
         .background {
-            if state == .default || state == .resume {
+            if case .resume = state {
+                RoundedRectangle(cornerRadius: 9999, style: .continuous)
+                    .fill(.secondary.opacity(0.2))
+            }
+            if case .default = state {
                 RoundedRectangle(cornerRadius: 9999, style: .continuous)
                     .fill(.secondary.opacity(0.2))
             }
@@ -74,10 +78,20 @@ struct RSDownloadButtonStyle: ButtonStyle {
 
 extension RSDownloadButtonStyle {
     enum ButtonState: Equatable {
-        case `default`
+        case `default`(String)
         case progress(CGFloat)
         case resume
         case again
+        
+        var title: String {
+            switch self {
+            case let .default(title):
+                return title
+            case .progress: return ""
+            case .resume: return "재개"
+            case .again: return ""
+            }
+        }
     }
 }
 
@@ -86,12 +100,12 @@ extension RSDownloadButtonStyle {
         Button("받기") {
             
         }
-        .buttonStyle(.download(.default))
+        .buttonStyle(.download(.default("받기")))
         
         Button("열기") {
             
         }
-        .buttonStyle(.download(.default))
+        .buttonStyle(.download(.default("열기")))
         
         Button("다운중") {
             
