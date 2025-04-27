@@ -50,7 +50,6 @@ struct RSAppCellView: View {
 protocol RSAppCellDisplayable {
     var trackName: String { get }
     var trackId: Int { get }
-    var price: Double? { get }
     var artworkUrl60: String { get }
     var subtitle: String { get }
 }

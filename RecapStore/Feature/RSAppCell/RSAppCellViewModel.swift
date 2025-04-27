@@ -18,6 +18,8 @@ final class RSAppCellViewModel {
     private var time: CFAbsoluteTime = CFAbsoluteTimeGetCurrent()
     @ObservationIgnored
     private var downloadTask: Task<Void, Never>?
+    @ObservationIgnored
+    private let myAppSwiftData = MyAppModelSwiftData.shared
     
     let app: RSAppCellDisplayable
     
@@ -79,6 +81,7 @@ private extension RSAppCellViewModel {
                     downloadTask?.cancel()
                     downloadTask = nil
                     downloadState = .default("열기")
+                    await saveModel()
                 }
                 time = now
             }
@@ -89,5 +92,15 @@ private extension RSAppCellViewModel {
         downloadTask?.cancel()
         downloadTask = nil
         downloadState = .resume
+    }
+    
+    func saveModel() async {
+        let model = MyAppModel(
+            artworkUrl60: app.artworkUrl60,
+            trackName: app.trackName,
+            trackId: app.trackId,
+            date: Date.now.toString(.myAppDate)
+        )
+        await myAppSwiftData.save(model)
     }
 }
