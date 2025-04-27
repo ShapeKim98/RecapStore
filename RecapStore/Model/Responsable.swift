@@ -7,6 +7,6 @@
 
 import Foundation
 
-struct SearchDTO<T: Decodable>: Decodable {
+struct Responsable<T: Decodable & Sendable>: Decodable, Sendable {
     let results: T
 }

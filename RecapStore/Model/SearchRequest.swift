@@ -18,7 +18,7 @@ struct SearchRequest {
         term: String,
         country: String = "kr",
         media: String = "software",
-        limit: Int = 25,
+        limit: Int = 200,
         offset: Int
     ) {
         self.term = term.split(separator: " ").joined(separator: "+")

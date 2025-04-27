@@ -35,7 +35,8 @@ struct RSAppCellView: View {
                     .font(.footnote)
                     .foregroundStyle(.secondary)
             }
-            .frame(maxWidth: .infinity)
+            
+            Spacer()
             
             Button(viewModel.downloadState.title) {
                 viewModel.downloadButtonAction()

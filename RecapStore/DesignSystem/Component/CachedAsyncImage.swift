@@ -41,7 +41,7 @@ struct CachedAsyncImage<ImageContent: View>: View {
     @Sendable
     private func progressViewTask() async {
         do {
-            let image = try await imageCacheManager.fetchImage(urlString)
+            let image: Image? = try await imageCacheManager.fetchImage(urlString)
             guard let image else {
                 phase = .error
                 return

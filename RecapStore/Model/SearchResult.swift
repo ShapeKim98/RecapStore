@@ -8,7 +8,7 @@
 import Foundation
 
 struct SearchResult: Decodable {
-    let screenshotUrls: [String]
+    var screenshotUrls: [String]
     let artworkUrl60: String
     let trackName: String
     let trackId: Int
@@ -16,6 +16,7 @@ struct SearchResult: Decodable {
     let genres: [String]
     let minimumOsVersion: String
     let artistName: String
+    let primaryGenreName: String
 }
 
 extension SearchResult: RSAppCellDisplayable {
@@ -43,7 +44,8 @@ extension SearchResult {
         price: 0.0,
         genres: ["내비게이션", "여행"],
         minimumOsVersion: "15.0",
-        artistName: "Kakao Mobility Corp."
+        artistName: "Kakao Mobility Corp.",
+        primaryGenreName: "내비게이션"
     )
 }
 
@@ -67,7 +69,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["여행", "라이프스타일"],
             minimumOsVersion: "15.0",
-            artistName: "Kakao Mobility Corp."
+            artistName: "Kakao Mobility Corp.",
+            primaryGenreName: "여행"
         ),
         SearchResult(
             screenshotUrls: [
@@ -88,7 +91,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["내비게이션", "여행"],
             minimumOsVersion: "15.0",
-            artistName: "Kakao Corp."
+            artistName: "Kakao Corp.",
+            primaryGenreName: "내비게이션"
         ),
         SearchResult(
             screenshotUrls: [
@@ -106,7 +110,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["금융", "라이프스타일"],
             minimumOsVersion: "14.0",
-            artistName: "KakaoPay Corp."
+            artistName: "KakaoPay Corp.",
+            primaryGenreName: "금융"
         ),
         SearchResult(
             screenshotUrls: [
@@ -122,7 +127,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["소셜 네트워킹", "유틸리티"],
             minimumOsVersion: "15.0",
-            artistName: "Kakao Corp."
+            artistName: "Kakao Corp.",
+            primaryGenreName: "소셜 네트워킹"
         ),
         SearchResult(
             screenshotUrls: [
@@ -141,7 +147,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["도서", "엔터테인먼트"],
             minimumOsVersion: "15.0",
-            artistName: "Kakao Entertainment Corp."
+            artistName: "Kakao Entertainment Corp.",
+            primaryGenreName: "도서"
         ),
         SearchResult(
             screenshotUrls: [
@@ -160,7 +167,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["금융"],
             minimumOsVersion: "15.0",
-            artistName: "KakaoBank Corp."
+            artistName: "KakaoBank Corp.",
+            primaryGenreName: "금융"
         ),
         SearchResult(
             screenshotUrls: [
@@ -176,7 +184,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["여행", "내비게이션"],
             minimumOsVersion: "12.0",
-            artistName: "Kakao Corp."
+            artistName: "Kakao Corp.",
+            primaryGenreName: "여행"
         ),
         SearchResult(
             screenshotUrls: [
@@ -196,7 +205,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["내비게이션", "여행"],
             minimumOsVersion: "15.0",
-            artistName: "Kakao Mobility Corp."
+            artistName: "Kakao Mobility Corp.",
+            primaryGenreName: "내비게이션"
         ),
         SearchResult(
             screenshotUrls: [
@@ -212,7 +222,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["교육", "의료"],
             minimumOsVersion: "13.0",
-            artistName: "Kakao Healthcare Corp."
+            artistName: "Kakao Healthcare Corp.",
+            primaryGenreName: "교육"
         ),
         SearchResult(
             screenshotUrls: [
@@ -232,7 +243,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["도서", "엔터테인먼트"],
             minimumOsVersion: "14.0",
-            artistName: "Kakao Entertainment Corp."
+            artistName: "Kakao Entertainment Corp.",
+            primaryGenreName: "도서"
         ),
         SearchResult(
             screenshotUrls: [
@@ -247,7 +259,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["음악", "엔터테인먼트"],
             minimumOsVersion: "12.0",
-            artistName: "Kakao Entertainment Corp."
+            artistName: "Kakao Entertainment Corp.",
+            primaryGenreName: "음악"
         ),
         SearchResult(
             screenshotUrls: [
@@ -265,7 +278,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["여행", "라이프스타일"],
             minimumOsVersion: "14.0",
-            artistName: "Kakao Mobility Corp."
+            artistName: "Kakao Mobility Corp.",
+            primaryGenreName: "여행"
         ),
         SearchResult(
             screenshotUrls: [
@@ -283,7 +297,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["스포츠", "여행"],
             minimumOsVersion: "13.0",
-            artistName: "Kakao VX Corp."
+            artistName: "Kakao VX Corp.",
+            primaryGenreName: "스포츠"
         ),
         SearchResult(
             screenshotUrls: [
@@ -301,7 +316,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["음악", "엔터테인먼트"],
             minimumOsVersion: "15.0",
-            artistName: "Spotify"
+            artistName: "Spotify",
+            primaryGenreName: "음악"
         ),
         SearchResult(
             screenshotUrls: [
@@ -318,7 +334,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["소셜 네트워킹", "사진 및 비디오"],
             minimumOsVersion: "13.0",
-            artistName: "Kakao Corp."
+            artistName: "Kakao Corp.",
+            primaryGenreName: "소셜 네트워킹"
         ),
         SearchResult(
             screenshotUrls: [],
@@ -328,7 +345,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["비즈니스", "소셜 네트워킹"],
             minimumOsVersion: "13.0",
-            artistName: "Kakao Corp."
+            artistName: "Kakao Corp.",
+            primaryGenreName: "비즈니스"
         ),
         SearchResult(
             screenshotUrls: [
@@ -347,7 +365,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["엔터테인먼트", "라이프스타일"],
             minimumOsVersion: "13.0",
-            artistName: "Kakao Corp."
+            artistName: "Kakao Corp.",
+            primaryGenreName: "엔터테인먼트"
         ),
         SearchResult(
             screenshotUrls: [
@@ -363,7 +382,8 @@ extension [SearchResult] {
             price: 0.0,
             genres: ["게임", "액션", "롤플레잉"],
             minimumOsVersion: "12.0",
-            artistName: "Kakao Games Corp."
+            artistName: "Kakao Games Corp.",
+            primaryGenreName: "게임"
         )
     ]
 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SearchDetail: Decodable {
+struct SearchDetail: Decodable, Sendable {
     let artworkUrl100: String
     let screenshotUrls: [String]
     let trackName: String
