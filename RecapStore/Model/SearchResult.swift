@@ -15,6 +15,7 @@ struct SearchResult: Decodable {
     let price: Double?
     let genres: [String]
     let minimumOsVersion: String
+    let artistName: String
 }
 
 extension SearchResult: RSAppCellDisplayable {
@@ -41,7 +42,8 @@ extension SearchResult {
         trackId: 417698849,
         price: 0.0,
         genres: ["내비게이션", "여행"],
-        minimumOsVersion: "15.0"
+        minimumOsVersion: "15.0",
+        artistName: "Kakao Mobility Corp."
     )
 }
 
@@ -64,7 +66,8 @@ extension [SearchResult] {
             trackId: 981110422,
             price: 0.0,
             genres: ["여행", "라이프스타일"],
-            minimumOsVersion: "15.0"
+            minimumOsVersion: "15.0",
+            artistName: "Kakao Mobility Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -84,7 +87,8 @@ extension [SearchResult] {
             trackId: 304608425,
             price: 0.0,
             genres: ["내비게이션", "여행"],
-            minimumOsVersion: "15.0"
+            minimumOsVersion: "15.0",
+            artistName: "Kakao Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -101,7 +105,8 @@ extension [SearchResult] {
             trackId: 1464496236,
             price: 0.0,
             genres: ["금융", "라이프스타일"],
-            minimumOsVersion: "14.0"
+            minimumOsVersion: "14.0",
+            artistName: "KakaoPay Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -116,7 +121,8 @@ extension [SearchResult] {
             trackId: 362057947,
             price: 0.0,
             genres: ["소셜 네트워킹", "유틸리티"],
-            minimumOsVersion: "15.0"
+            minimumOsVersion: "15.0",
+            artistName: "Kakao Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -134,7 +140,8 @@ extension [SearchResult] {
             trackId: 736602666,
             price: 0.0,
             genres: ["도서", "엔터테인먼트"],
-            minimumOsVersion: "15.0"
+            minimumOsVersion: "15.0",
+            artistName: "Kakao Entertainment Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -152,7 +159,8 @@ extension [SearchResult] {
             trackId: 1258016944,
             price: 0.0,
             genres: ["금융"],
-            minimumOsVersion: "15.0"
+            minimumOsVersion: "15.0",
+            artistName: "KakaoBank Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -167,7 +175,8 @@ extension [SearchResult] {
             trackId: 1095533900,
             price: 0.0,
             genres: ["여행", "내비게이션"],
-            minimumOsVersion: "12.0"
+            minimumOsVersion: "12.0",
+            artistName: "Kakao Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -186,7 +195,8 @@ extension [SearchResult] {
             trackId: 417698849,
             price: 0.0,
             genres: ["내비게이션", "여행"],
-            minimumOsVersion: "15.0"
+            minimumOsVersion: "15.0",
+            artistName: "Kakao Mobility Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -201,7 +211,8 @@ extension [SearchResult] {
             trackId: 1173776109,
             price: 0.0,
             genres: ["교육", "의료"],
-            minimumOsVersion: "13.0"
+            minimumOsVersion: "13.0",
+            artistName: "Kakao Healthcare Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -220,7 +231,8 @@ extension [SearchResult] {
             trackId: 616643813,
             price: 0.0,
             genres: ["도서", "엔터테인먼트"],
-            minimumOsVersion: "14.0"
+            minimumOsVersion: "14.0",
+            artistName: "Kakao Entertainment Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -234,7 +246,8 @@ extension [SearchResult] {
             trackId: 696690152,
             price: 0.0,
             genres: ["음악", "엔터테인먼트"],
-            minimumOsVersion: "12.0"
+            minimumOsVersion: "12.0",
+            artistName: "Kakao Entertainment Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -251,7 +264,8 @@ extension [SearchResult] {
             trackId: 1110271804,
             price: 0.0,
             genres: ["여행", "라이프스타일"],
-            minimumOsVersion: "14.0"
+            minimumOsVersion: "14.0",
+            artistName: "Kakao Mobility Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -268,7 +282,8 @@ extension [SearchResult] {
             trackId: 1423489983,
             price: 0.0,
             genres: ["스포츠", "여행"],
-            minimumOsVersion: "13.0"
+            minimumOsVersion: "13.0",
+            artistName: "Kakao VX Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -285,7 +300,8 @@ extension [SearchResult] {
             trackId: 324684580,
             price: 0.0,
             genres: ["음악", "엔터테인먼트"],
-            minimumOsVersion: "15.0"
+            minimumOsVersion: "15.0",
+            artistName: "Spotify"
         ),
         SearchResult(
             screenshotUrls: [
@@ -301,7 +317,8 @@ extension [SearchResult] {
             trackId: 486244601,
             price: 0.0,
             genres: ["소셜 네트워킹", "사진 및 비디오"],
-            minimumOsVersion: "13.0"
+            minimumOsVersion: "13.0",
+            artistName: "Kakao Corp."
         ),
         SearchResult(
             screenshotUrls: [],
@@ -310,7 +327,8 @@ extension [SearchResult] {
             trackId: 990571676,
             price: 0.0,
             genres: ["비즈니스", "소셜 네트워킹"],
-            minimumOsVersion: "13.0"
+            minimumOsVersion: "13.0",
+            artistName: "Kakao Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -328,7 +346,8 @@ extension [SearchResult] {
             trackId: 1286618447,
             price: 0.0,
             genres: ["엔터테인먼트", "라이프스타일"],
-            minimumOsVersion: "13.0"
+            minimumOsVersion: "13.0",
+            artistName: "Kakao Corp."
         ),
         SearchResult(
             screenshotUrls: [
@@ -343,7 +362,8 @@ extension [SearchResult] {
             trackId: 1670875186,
             price: 0.0,
             genres: ["게임", "액션", "롤플레잉"],
-            minimumOsVersion: "12.0"
+            minimumOsVersion: "12.0",
+            artistName: "Kakao Games Corp."
         )
     ]
 }
