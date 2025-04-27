@@ -64,12 +64,11 @@ private extension RSAppCellViewModel {
             on: .main,
             in: .common
         ).autoconnect()
-        
+        time = CFAbsoluteTimeGetCurrent()
         downloadTask = Task { [weak self] in
             for await _ in timer.values {
                 guard let `self` else { return }
                 let now = CFAbsoluteTimeGetCurrent()
-                defer { time = now }
                 
                 let progress = downloadProgress?[app.trackId.description] ?? 0.0
                 
@@ -85,6 +84,7 @@ private extension RSAppCellViewModel {
                     downloadState = .default
                     downloadButtonTitle = "완료"
                 }
+                time = now
             }
         }
     }
