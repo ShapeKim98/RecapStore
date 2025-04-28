@@ -36,7 +36,6 @@ private extension SearchView {
                 .controlSize(.regular)
         } else {
             ScrollView(content: content)
-                .task(viewModel.scrollViewTask)
                 .navigationBarTitleDisplayMode(.inline)
                 .searchable(text: $viewModel.searchableText)
                 .onSubmit(of: .search, viewModel.searchOnSubmit)

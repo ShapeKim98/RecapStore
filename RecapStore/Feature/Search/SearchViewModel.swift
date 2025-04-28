@@ -16,11 +16,6 @@ final class SearchViewModel {
     var searchableText: String = ""
     var isLoading: Bool = false
     
-    @Sendable
-    func scrollViewTask() async {
-//        results = .mockList
-    }
-    
     func searchOnSubmit() {
         results.removeAll()
         isLoading = true
