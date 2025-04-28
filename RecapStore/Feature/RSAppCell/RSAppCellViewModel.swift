@@ -40,13 +40,6 @@ final class RSAppCellViewModel {
     }
     
     func downloadButtonAction() {
-        // 임시
-        if let progress = downloadProgress?[app.trackId.description], progress >= 1 {
-            downloadProgress?[app.trackId.description] = 0
-            downloadState = .again
-            return
-        }
-        
         if downloadTask == nil {
             startDownload()
         } else {

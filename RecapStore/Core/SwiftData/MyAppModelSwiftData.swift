@@ -44,6 +44,17 @@ final class MyAppModelSwiftData {
         return result
     }
     
+    func fetchQueryList(_ query: String) async throws -> [MyAppModel] {
+        let predicate = #Predicate<MyAppModel> {
+            query.isEmpty ||
+            $0.trackName.localizedStandardContains(query)
+        }
+        let descriptor: FetchDescriptor<MyAppModel> = .init(predicate: predicate)
+        let result: [MyAppModel]
+        result = try context?.fetch(descriptor) ?? []
+        return result
+    }
+    
     func save(_ model: MyAppModel) async {
         context?.insert(model)
     }
