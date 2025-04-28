@@ -23,6 +23,8 @@ struct SearchView: View {
     var body: some View {
         NavigationStack(path: $path, root: root)
             .animation(.smooth, value: viewModel.isLoading)
+            .searchable(text: $viewModel.searchableText)
+            .onSubmit(of: .search, viewModel.searchOnSubmit)
             .task(bodyTask)
     }
 }
@@ -36,8 +38,6 @@ private extension SearchView {
                 .controlSize(.regular)
         } else {
             ScrollView(content: content)
-                .searchable(text: $viewModel.searchableText)
-                .onSubmit(of: .search, viewModel.searchOnSubmit)
                 .navigationTitle("검색")
                 .navigationBarTitleDisplayMode(.inline)
                 .navigationDestination(for: SearchPath.self) { path in
@@ -65,7 +65,23 @@ private extension SearchView {
     var searchResultSection: some View {
         LazyVStack(spacing: 32) {
             ForEach(viewModel.results, id: \.trackId) { result in
-                SearchResultCell(result: result)
+                let viewModel = RSAppCellViewModel(app: result)
+                
+                Button {
+                    let detailViewModel = DetailViewModel(
+                        trackId: result.trackId,
+                        downloadState: viewModel.downloadState
+                    )
+                    detailViewModel.delegate = viewModel
+//                    navigation.push(.appDetail(viewModel: detailViewModel))
+                    path.append(.appDetail(viewModel: detailViewModel))
+                } label: {
+                    SearchResultCell(
+                        result: result,
+                        viewModel: viewModel
+                    )
+                }
+                .buttonStyle(.plain)
             }
         }
     }
@@ -77,29 +93,24 @@ private extension SearchView {
         @State
         private var result: SearchResult
         
-        init(result: SearchResult) {
+        private let viewModel: RSAppCellViewModel
+        
+        init(
+            result: SearchResult,
+            viewModel: RSAppCellViewModel
+        ) {
             self.result = result
+            self.viewModel = viewModel
         }
         
         var body: some View {
-            let viewModel = RSAppCellViewModel(app: result)
-            let detailViewModel = DetailViewModel(trackId: result.trackId)
-            let value = SearchPath.appDetail(viewModel: detailViewModel)
-            
-            NavigationLink(value: value) {
-                VStack(spacing: 16) {
-                    
-                    RSAppCellView(viewModel: viewModel)
-                    
-                    information
-                    
-                    screenShots
-                }
-            }
-            .buttonStyle(.plain)
-            .simultaneousGesture(TapGesture().onEnded {
+            VStack(spacing: 16) {
+                RSAppCellView(viewModel: viewModel)
                 
-            })
+                information
+                
+                screenShots
+            }
             .task(bodyTask)
         }
         

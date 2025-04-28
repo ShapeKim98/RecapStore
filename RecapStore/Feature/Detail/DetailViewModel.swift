@@ -9,13 +9,37 @@ import Foundation
 import Observation
 
 @MainActor
+protocol DetailViewModelDelegate: AnyObject {
+    func detailViewModelDownloadButtonAction()
+}
+
+@MainActor
 @Observable
 final class DetailViewModel: NSObject {
+    @ObservationIgnored
+    @Shared(.userDefaults(.download))
+    private var downloadProgress = [String: Double]()
+    @ObservationIgnored
+    private var downloadTask: Task<Void, Never>?
+    
+    @ObservationIgnored
+    weak var delegate: DetailViewModelDelegate?
+    
     private let itunesClient = ItunesClient.shared
     private let trackId: Int
     
-    init(trackId: Int) {
+    init(
+        trackId: Int,
+        downloadState: RSDownloadButtonStyle.ButtonState
+    ) {
         self.trackId = trackId
+        self.downloadState = downloadState
+        
+        super.init()
+        
+        if case .progress = downloadState {
+            startDownload()
+        }
     }
     
     var isLoading = true
@@ -23,7 +47,7 @@ final class DetailViewModel: NSObject {
     var isMoreDescription = false
     var isMoreWhatsNew = false
     
-    var downloadState: RSDownloadButtonStyle.ButtonState = .default("받기")
+    var downloadState: RSDownloadButtonStyle.ButtonState
     
     func moreDescriptionButtonAction() {
         isMoreDescription.toggle()
@@ -31,6 +55,15 @@ final class DetailViewModel: NSObject {
     
     func moreWhatsNewButtonAction() {
         isMoreWhatsNew.toggle()
+    }
+    
+    func downloadButtonAction() {
+        delegate?.detailViewModelDownloadButtonAction()
+        if downloadTask == nil {
+            startDownload()
+        } else {
+            pauseDownload()
+        }
     }
     
     @Sendable
@@ -52,5 +85,34 @@ private extension DetailViewModel {
         } catch {
             print(error)
         }
+    }
+    
+    func startDownload() {
+        let timer = Timer.publish(
+            every: 0.01,
+            on: .main,
+            in: .common
+        ).autoconnect()
+        
+        downloadTask = Task { [weak self] in
+            for await _ in timer.values {
+                guard let `self` else { return }
+                
+                let progress = downloadProgress?[trackId.description] ?? 0.0
+                downloadState = .progress(progress)
+                
+                guard progress >= 1 else { continue }
+                
+                downloadTask?.cancel()
+                downloadTask = nil
+                downloadState = .default("열기")
+            }
+        }
+    }
+    
+    func pauseDownload() {
+        downloadTask?.cancel()
+        downloadTask = nil
+        downloadState = .resume
     }
 }

@@ -79,9 +79,10 @@ private extension DetailView {
                 
                 HStack {
                     Button(viewModel.downloadState.title) {
-                        
+                        viewModel.downloadButtonAction()
                     }
                     .buttonStyle(.download(viewModel.downloadState))
+                    .animation(.easeInOut, value: viewModel.downloadState)
                     
                     Spacer()
                 }
@@ -266,5 +267,10 @@ private extension DetailView {
 }
 
 #Preview {
-    DetailView(viewModel: DetailViewModel(trackId: 1258016944))
+    DetailView(
+        viewModel: DetailViewModel(
+            trackId: 1258016944,
+            downloadState: .default("받기")
+        )
+    )
 }

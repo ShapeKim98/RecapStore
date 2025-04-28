@@ -76,7 +76,6 @@ private extension RSAppCellViewModel {
                 
                 downloadProgress?[app.trackId.description] = newProgress
                 downloadState = .progress(newProgress)
-                print(progress)
                 if progress >= 1 {
                     downloadTask?.cancel()
                     downloadTask = nil
@@ -102,5 +101,15 @@ private extension RSAppCellViewModel {
             date: Date.now.toString(.myAppDate)
         )
         await myAppSwiftData.save(model)
+    }
+}
+
+extension RSAppCellViewModel: DetailViewModelDelegate {
+    func detailViewModelDownloadButtonAction() {
+        if downloadTask == nil {
+            startDownload()
+        } else {
+            pauseDownload()
+        }
     }
 }
