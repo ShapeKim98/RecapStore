@@ -17,6 +17,7 @@ final class MyAppViewModel {
     @ObservationIgnored
     private var fetchQueryListTask: Task<Void, Never>?
     
+    private let toastRouter = ToastRouter.shared
     private let myAppSwiftData = MyAppModelSwiftData.shared
     
     var myAppList: [MyAppModel] = []
@@ -40,6 +41,7 @@ final class MyAppViewModel {
                 self?.downloadProgress?[trackId.description] = 0
                 self?.myAppList.removeAll(where: { $0.trackId == trackId })
             } catch {
+                await self?.toastRouter.presentToast("앱 삭제 중 오류가 발생했어요")
                 print(error)
             }
         }
@@ -67,7 +69,7 @@ private extension MyAppViewModel {
         do {
             myAppList = try await myAppSwiftData.fetchQueryList(query)
         } catch {
-            print(error)
+            await toastRouter.presentToast("앱 목록 조회 중 오류가 발생했어요")
         }
     }
     
@@ -75,7 +77,7 @@ private extension MyAppViewModel {
         do {
             myAppList = try await myAppSwiftData.fetchList()
         } catch {
-            print(error)
+            await toastRouter.presentToast("앱 목록 조회 중 오류가 발생했어요")
         }
     }
 }

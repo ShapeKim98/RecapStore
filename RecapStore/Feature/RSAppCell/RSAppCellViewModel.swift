@@ -19,6 +19,7 @@ final class RSAppCellViewModel {
     @ObservationIgnored
     private var downloadTask: Task<Void, Never>?
     
+    private let toastRouter = ToastRouter.shared
     private let networkMonitor = NetworkMonitor.shared
     private let myAppSwiftData = MyAppModelSwiftData.shared
     
@@ -123,6 +124,7 @@ private extension RSAppCellViewModel {
         do {
             try await myAppSwiftData.save(model)
         } catch {
+            await toastRouter.presentToast("앱 저장 중 오류가 발생했어요")
             print(error)
         }
     }

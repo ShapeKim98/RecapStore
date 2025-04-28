@@ -10,6 +10,11 @@ import SwiftUI
 struct ContentView: View {
     @State
     private var currentTabId: Int = 2
+    @State
+    private var toastMessage: String? = nil
+    
+    private let toastRouter = ToastRouter.shared
+    private let networkMonitor = NetworkMonitor.shared
     
     var body: some View {
         TabView(selection: $currentTabId) {
@@ -58,6 +63,42 @@ struct ContentView: View {
                     Text("검색")
                 }
                 .tag(4)
+        }
+        .overlay(alignment: .top) {
+            if let toastMessage {
+                HStack(spacing: 8) {
+                    Text(toastMessage)
+                    
+                    Button("닫기", systemImage: "xmark.circle.fill") {
+                        toastRouter.dismissToast()
+                    }
+                    .buttonStyle(.plain)
+                    .labelStyle(.iconOnly)
+                }
+                .font(.title3)
+                .padding(.vertical, 8)
+                .padding(.horizontal, 16)
+                .background(.thinMaterial)
+                .clipShape(RoundedRectangle(cornerRadius: 9999, style: .continuous))
+                .clipped()
+                .shadow(radius: 8)
+                .transition(.move(edge: .top).combined(with: .opacity))
+            }
+        }
+        .animation(.bouncy, value: toastMessage)
+        .task {
+            for await message in toastRouter.publisher {
+                toastMessage = message
+            }
+        }
+        .task {
+            for await path in await networkMonitor.publisher {
+                if path.status == .satisfied {
+                    toastRouter.dismissToast()
+                } else {
+                    await toastRouter.presentToast("네트워크 연결 상태를 확인해주세요.")
+                }
+            }
         }
     }
 }

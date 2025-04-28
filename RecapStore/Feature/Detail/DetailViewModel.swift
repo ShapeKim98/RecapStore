@@ -25,6 +25,7 @@ final class DetailViewModel: NSObject {
     @ObservationIgnored
     weak var delegate: DetailViewModelDelegate?
     
+    private let toastRouter = ToastRouter.shared
     private let networkMonitor = NetworkMonitor.shared
     private let itunesClient = ItunesClient.shared
     private let trackId: Int
@@ -98,6 +99,7 @@ private extension DetailViewModel {
             let results = try await itunesClient.lookup(request)
             self.detail = results
         } catch {
+            await toastRouter.presentToast("앱 조회 중 오류가 발생했어요")
             print(error)
         }
     }
