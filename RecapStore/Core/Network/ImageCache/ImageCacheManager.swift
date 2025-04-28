@@ -34,4 +34,23 @@ struct ImageCacheManager {
         guard let uiImage else { return nil }
         return Image(uiImage: uiImage)
     }
+    
+    func fetchImage(_ urlString: String) async throws -> UIImage? {
+        guard let url = URL(string: urlString) else { return nil }
+        
+        let request = URLRequest(url: url)
+        let uiImage: UIImage?
+        
+        if let cachedImage = urlCache.cachedResponse(
+            for: request
+        ) {
+            uiImage = UIImage(data: cachedImage.data)
+        } else {
+            let (data, response) = try await HTTPSession.task(request)
+            let cachedResponse = CachedURLResponse(response: response, data: data)
+            urlCache.storeCachedResponse(cachedResponse, for: request)
+            uiImage = UIImage(data: data)
+        }
+        return uiImage
+    }
 }

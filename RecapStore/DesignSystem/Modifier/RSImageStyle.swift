@@ -11,12 +11,12 @@ private struct RSImageStyle: ViewModifier {
     func body(content: Content) -> some View {
         content
             .clipShape(RoundedRectangle(
-                cornerRadius: 20,
+                cornerRadius: 12,
                 style: .continuous
             ))
             .clipped()
-            .overlay(.secondary.opacity(0.5), in: RoundedRectangle(
-                cornerRadius: 20,
+            .overlay(.secondary.opacity(0.2), in: RoundedRectangle(
+                cornerRadius: 12,
                 style: .continuous
             ).stroke(lineWidth: 1))
     }
