@@ -34,14 +34,18 @@ final class MyAppModelSwiftData {
         let predicate = #Predicate<MyAppModel> {
             $0.trackId == id
         }
-        let descriptor: FetchDescriptor<MyAppModel> = .init(predicate: predicate)
+        let descriptor: FetchDescriptor<MyAppModel> = .init(
+            predicate: predicate
+        )
         let result = try self.context?.fetch(descriptor).first
         
         return result
     }
     
     func fetchList() async throws -> [MyAppModel] {
-        let descriptor: FetchDescriptor<MyAppModel> = .init()
+        let descriptor: FetchDescriptor<MyAppModel> = .init(
+            sortBy: [SortDescriptor(\.date, order: .reverse)]
+        )
         let result: [MyAppModel]
         result = try context?.fetch(descriptor) ?? []
         return result
@@ -52,14 +56,18 @@ final class MyAppModelSwiftData {
             query.isEmpty ||
             $0.trackName.localizedStandardContains(query)
         }
-        let descriptor: FetchDescriptor<MyAppModel> = .init(predicate: predicate)
+        let descriptor: FetchDescriptor<MyAppModel> = .init(
+            predicate: predicate,
+            sortBy: [SortDescriptor(\.date, order: .reverse)]
+        )
         let result: [MyAppModel]
         result = try context?.fetch(descriptor) ?? []
         return result
     }
     
-    func save(_ model: MyAppModel) async {
+    func save(_ model: MyAppModel) async throws {
         context?.insert(model)
+        try context?.save()
         subject.send(())
     }
     
@@ -69,7 +77,6 @@ final class MyAppModelSwiftData {
         oldModel?.date = model.date
         oldModel?.trackId = model.trackId
         oldModel?.trackName = model.trackName
-        
         try context?.save()
         subject.send(())
     }

@@ -42,6 +42,7 @@ struct RSAppCellView: View {
                 viewModel.downloadButtonAction()
             }
             .buttonStyle(.download(viewModel.downloadState))
+            .onAppear(perform: viewModel.buttonOnAppear)
             .animation(.easeInOut, value: viewModel.downloadState)
         }
         .contentShape(Rectangle())

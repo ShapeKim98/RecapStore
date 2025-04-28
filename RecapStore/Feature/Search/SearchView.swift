@@ -23,7 +23,6 @@ struct SearchView: View {
             .animation(.smooth, value: viewModel.isLoading)
             .searchable(text: $viewModel.searchableText)
             .onSubmit(of: .search, viewModel.searchOnSubmit)
-            .task(bodyTask)
     }
 }
 

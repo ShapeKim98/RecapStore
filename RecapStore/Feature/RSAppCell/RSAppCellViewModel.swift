@@ -46,6 +46,19 @@ final class RSAppCellViewModel {
             pauseDownload()
         }
     }
+    
+    func buttonOnAppear() {
+        let progress = downloadProgress?[app.trackId.description]
+        
+        guard let progress else { return }
+        if progress >= 1 {
+            downloadState = .default("열기")
+        } else if progress == 0 {
+            downloadState = .again
+        } else {
+            downloadState = .resume
+        }
+    }
 }
 
 // MARK: - Functions
@@ -91,9 +104,13 @@ private extension RSAppCellViewModel {
             artworkUrl60: app.artworkUrl60,
             trackName: app.trackName,
             trackId: app.trackId,
-            date: Date.now.toString(.myAppDate)
+            date: Date.now
         )
-        await myAppSwiftData.save(model)
+        do {
+            try await myAppSwiftData.save(model)
+        } catch {
+            print(error)
+        }
     }
 }
 
