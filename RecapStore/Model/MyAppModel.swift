@@ -13,13 +13,13 @@ final class MyAppModel {
     var trackId: Int
     var artworkUrl60: String
     var trackName: String
-    var date: String
+    var date: Date
     
     init(
         artworkUrl60: String,
         trackName: String,
         trackId: Int,
-        date: String
+        date: Date
     ) {
         self.artworkUrl60 = artworkUrl60
         self.trackName = trackName
@@ -29,5 +29,5 @@ final class MyAppModel {
 }
 
 extension MyAppModel: RSAppCellDisplayable {
-    var subtitle: String { self.date }
+    var subtitle: String { self.date.toString(.myAppDate) }
 }

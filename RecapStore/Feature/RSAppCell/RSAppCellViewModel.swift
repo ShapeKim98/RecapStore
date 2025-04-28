@@ -18,7 +18,9 @@ final class RSAppCellViewModel {
     private var time: CFAbsoluteTime = CFAbsoluteTimeGetCurrent()
     @ObservationIgnored
     private var downloadTask: Task<Void, Never>?
-    @ObservationIgnored
+    
+    private let toastRouter = ToastRouter.shared
+    private let networkMonitor = NetworkMonitor.shared
     private let myAppSwiftData = MyAppModelSwiftData.shared
     
     let app: RSAppCellDisplayable
@@ -40,17 +42,36 @@ final class RSAppCellViewModel {
     }
     
     func downloadButtonAction() {
-        // 임시
-        if let progress = downloadProgress?[app.trackId.description], progress >= 1 {
-            downloadProgress?[app.trackId.description] = 0
-            downloadState = .again
-            return
-        }
-        
         if downloadTask == nil {
             startDownload()
         } else {
             pauseDownload()
+        }
+    }
+    
+    func buttonOnAppear() {
+        let progress = downloadProgress?[app.trackId.description]
+        
+        guard let progress else { return }
+        if progress >= 1 {
+            downloadState = .default("열기")
+        } else if progress == 0 {
+            downloadState = .again
+        } else {
+            downloadState = .resume
+        }
+    }
+    
+    @Sendable
+    func bodyTask() async {
+        let publisher = await networkMonitor.publisher
+        for await path in publisher {
+            guard case .progress = downloadState else { continue }
+            let connected = path.status == .satisfied
+            
+            if !connected {
+                pauseDownload()
+            }
         }
     }
 }
@@ -59,7 +80,7 @@ final class RSAppCellViewModel {
 private extension RSAppCellViewModel {
     func startDownload() {
         let timer = Timer.publish(
-            every: 0.01,
+            every: 0.1,
             on: .main,
             in: .common
         ).autoconnect()
@@ -98,9 +119,14 @@ private extension RSAppCellViewModel {
             artworkUrl60: app.artworkUrl60,
             trackName: app.trackName,
             trackId: app.trackId,
-            date: Date.now.toString(.myAppDate)
+            date: Date.now
         )
-        await myAppSwiftData.save(model)
+        do {
+            try await myAppSwiftData.save(model)
+        } catch {
+            await toastRouter.presentToast("앱 저장 중 오류가 발생했어요")
+            print(error)
+        }
     }
 }
 

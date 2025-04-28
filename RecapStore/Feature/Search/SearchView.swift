@@ -8,8 +8,6 @@
 import SwiftUI
 
 struct SearchView: View {
-//    @Environment(\.searchNavigation)
-//    private var navigation
     @Bindable
     private var viewModel: SearchViewModel
     
@@ -25,7 +23,6 @@ struct SearchView: View {
             .animation(.smooth, value: viewModel.isLoading)
             .searchable(text: $viewModel.searchableText)
             .onSubmit(of: .search, viewModel.searchOnSubmit)
-            .task(bodyTask)
     }
 }
 
@@ -73,7 +70,6 @@ private extension SearchView {
                         downloadState: viewModel.downloadState
                     )
                     detailViewModel.delegate = viewModel
-//                    navigation.push(.appDetail(viewModel: detailViewModel))
                     path.append(.appDetail(viewModel: detailViewModel))
                 } label: {
                     SearchResultCell(
@@ -160,24 +156,6 @@ private extension SearchView {
                 return
             }
         }
-    }
-}
-
-// MARK: - Functions
-private extension SearchView {
-    @Sendable
-    func bodyTask() async {
-//        for await action in navigation.publisher() {
-//            print(#function)
-//            switch action {
-//            case let .push(path):
-//                self.path.append(path)
-//            case .pop:
-//                let _ = self.path.popLast()
-//            case .popAll:
-//                self.path.removeAll()
-//            }
-//        }
     }
 }
 

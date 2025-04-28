@@ -11,6 +11,7 @@ import Observation
 @MainActor
 @Observable
 final class SearchViewModel {
+    private let toastRouter = ToastRouter.shared
     private let itunesClient = ItunesClient.shared
     
     var results: [SearchResult] = []
@@ -19,6 +20,10 @@ final class SearchViewModel {
     var hasNext = true
     
     func searchOnSubmit() {
+        guard searchableText.filter(\.isLetter).count > 0 else {
+            return
+        }
+        
         results.removeAll()
         isLoading = true
         Task { [weak self] in
@@ -45,7 +50,7 @@ private extension SearchViewModel {
             hasNext = results.count >= 25
             self.results.append(contentsOf: results)
         } catch {
-            print(error)
+            await toastRouter.presentToast("검색하는 중 오류가 발생했어요")
         }
     }
 }

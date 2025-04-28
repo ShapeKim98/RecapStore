@@ -31,6 +31,7 @@ struct DetailView: View {
                 .task(viewModel.progressViewTask)
         } else {
             ScrollView(content: content)
+                .task(viewModel.bodyTask)
                 .animation(.bouncy, value: viewModel.isMoreDescription)
                 .animation(.bouncy, value: viewModel.isMoreWhatsNew)
                 .fullScreenCover(item: $sourceId) { sourceId in

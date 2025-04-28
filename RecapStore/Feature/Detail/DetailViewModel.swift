@@ -25,6 +25,8 @@ final class DetailViewModel: NSObject {
     @ObservationIgnored
     weak var delegate: DetailViewModelDelegate?
     
+    private let toastRouter = ToastRouter.shared
+    private let networkMonitor = NetworkMonitor.shared
     private let itunesClient = ItunesClient.shared
     private let trackId: Int
     
@@ -70,6 +72,20 @@ final class DetailViewModel: NSObject {
     func progressViewTask() async {
         await fetchLookup()
     }
+    
+    @Sendable
+    func bodyTask() async {
+        let publisher = await networkMonitor.publisher
+        for await path in publisher {
+            guard case .progress = downloadState else { continue }
+            let connected = path.status == .satisfied
+            
+            if !connected {
+                pauseDownload()
+                delegate?.detailViewModelDownloadButtonAction()
+            }
+        }
+    }
 }
 
 // MARK: - Functions
@@ -83,13 +99,14 @@ private extension DetailViewModel {
             let results = try await itunesClient.lookup(request)
             self.detail = results
         } catch {
+            await toastRouter.presentToast("앱 조회 중 오류가 발생했어요")
             print(error)
         }
     }
     
     func startDownload() {
         let timer = Timer.publish(
-            every: 0.01,
+            every: 0.1,
             on: .main,
             in: .common
         ).autoconnect()

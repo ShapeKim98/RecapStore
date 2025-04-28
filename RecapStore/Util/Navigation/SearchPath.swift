@@ -10,10 +10,3 @@ import SwiftUI
 enum SearchPath: Hashable, Sendable {
     case appDetail(viewModel: DetailViewModel)
 }
-
-extension EnvironmentValues {
-    var searchNavigation: Navigation<SearchPath> {
-        get { self[Navigation<SearchPath>.self] }
-        set { self[Navigation<SearchPath>.self] = newValue }
-    }
-}
