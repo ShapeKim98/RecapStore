@@ -89,7 +89,7 @@ private extension DetailViewModel {
     
     func startDownload() {
         let timer = Timer.publish(
-            every: 0.01,
+            every: 0.1,
             on: .main,
             in: .common
         ).autoconnect()

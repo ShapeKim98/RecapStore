@@ -7,12 +7,15 @@
 
 import Foundation
 import SwiftData
+import Combine
 
 @MainActor
 final class MyAppModelSwiftData {
     static let shared = MyAppModelSwiftData()
     
     private let context: ModelContext?
+    
+    private let subject = PassthroughSubject<Void, Never>()
     
     private init() {
         do {
@@ -57,6 +60,7 @@ final class MyAppModelSwiftData {
     
     func save(_ model: MyAppModel) async {
         context?.insert(model)
+        subject.send(())
     }
     
     func update(at id: Int, model: MyAppModel) async throws {
@@ -67,6 +71,7 @@ final class MyAppModelSwiftData {
         oldModel?.trackName = model.trackName
         
         try context?.save()
+        subject.send(())
     }
     
     func delete(at id: Int) async throws {
@@ -74,5 +79,10 @@ final class MyAppModelSwiftData {
         guard let model else { return }
         context?.delete(model)
         try context?.save()
+        subject.send(())
+    }
+    
+    func publisher() -> AnyPublisher<Void, Never> {
+        subject.eraseToAnyPublisher()
     }
 }

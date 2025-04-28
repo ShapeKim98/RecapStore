@@ -52,7 +52,7 @@ final class RSAppCellViewModel {
 private extension RSAppCellViewModel {
     func startDownload() {
         let timer = Timer.publish(
-            every: 0.01,
+            every: 0.1,
             on: .main,
             in: .common
         ).autoconnect()

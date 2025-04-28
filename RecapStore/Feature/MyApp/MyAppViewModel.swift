@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftData
 
 @MainActor
 @Observable
@@ -24,8 +25,12 @@ final class MyAppViewModel {
     
     @Sendable
     func bodyTask() async {
-        defer { isLoading = false }
         await fetchList()
+        isLoading = false
+        
+        for await _ in myAppSwiftData.publisher().values {
+            await fetchList()
+        }
     }
     
     func appCellSwipeActions(trackId: Int) {
@@ -33,6 +38,7 @@ final class MyAppViewModel {
             do {
                 try await self?.myAppSwiftData.delete(at: trackId)
                 self?.downloadProgress?[trackId.description] = 0
+                self?.myAppList.removeAll(where: { $0.trackId == trackId })
             } catch {
                 print(error)
             }
