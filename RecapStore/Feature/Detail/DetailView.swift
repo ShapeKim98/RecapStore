@@ -8,10 +8,17 @@
 import SwiftUI
 
 struct DetailView: View {
+    @Namespace
+    private var zoomTransition
+    
     @Environment(\.colorScheme)
     private var colorScheme
     
-    private let viewModel: DetailViewModel
+    @State
+    private var sourceId: SourceID?
+    
+    @Bindable
+    private var viewModel: DetailViewModel
     
     init(viewModel: DetailViewModel) {
         self.viewModel = viewModel
@@ -26,6 +33,18 @@ struct DetailView: View {
             ScrollView(content: content)
                 .animation(.bouncy, value: viewModel.isMoreDescription)
                 .animation(.bouncy, value: viewModel.isMoreWhatsNew)
+                .fullScreenCover(item: $sourceId) { sourceId in
+                    let urls = viewModel.detail?.screenshotUrls ?? []
+                    ScreenShotDetailView(
+                        urls: urls,
+                        downloadState: $viewModel.downloadState,
+                        downloadButtonAction: viewModel.downloadButtonAction
+                    )
+                    .zoomTransition(
+                        sourceID: sourceId,
+                        in: zoomTransition
+                    )
+                }
         }
     }
 }
@@ -163,23 +182,35 @@ private extension DetailView {
                     .padding(.horizontal, 20)
                 
                 ScrollView(.horizontal, showsIndicators: false) {
-                    LazyHStack(spacing: 8) {
-                        ForEach(urls, id: \.self) { url in
-                            CachedAsyncImage(url: url) { image in
-                                image
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 220)
-                                    .rsImageStyle(radius: 26)
-                            }
-                        }
-                    }
-                    .scrollTargetLayout()
-                    .padding(.horizontal, 20)
+                    screenShotsScrollViewContent(urls: urls)
                 }
                 .scrollTargetBehavior(.viewAligned)
             }
         }
+    }
+    
+    func screenShotsScrollViewContent(urls: [String]) -> some View {
+        LazyHStack(spacing: 8) {
+            ForEach(urls, id: \.self) { url in
+                let id = SourceID(id: url)
+                
+                Button {
+                    sourceId = id
+                } label: {
+                    CachedAsyncImage(url: url) { image in
+                        image
+                            .resizable()
+                            .aspectRatio(contentMode: .fill)
+                            .frame(width: 220)
+                            .rsImageStyle(radius: 26)
+                    }
+                    .transitionSource(sourceID: id, in: zoomTransition)
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .scrollTargetLayout()
+        .padding(.horizontal, 20)
     }
     
     func descriptionSection(_ description: String) -> some View {
@@ -263,6 +294,12 @@ private extension DetailView {
             .padding(.horizontal, 20)
             .padding(.bottom, 28)
         }
+    }
+}
+
+private extension DetailView {
+    struct SourceID: Identifiable, Hashable {
+        let id: String
     }
 }
 
