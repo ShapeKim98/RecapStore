@@ -17,6 +17,10 @@ final class MyAppModelSwiftData {
     
     private let subject = PassthroughSubject<Void, Never>()
     
+    var publisher: AnyPublisher<Void, Never> {
+        subject.eraseToAnyPublisher()
+    }
+    
     private init() {
         do {
             let container = try ModelContainer(
@@ -87,9 +91,5 @@ final class MyAppModelSwiftData {
         context?.delete(model)
         try context?.save()
         subject.send(())
-    }
-    
-    func publisher() -> AnyPublisher<Void, Never> {
-        subject.eraseToAnyPublisher()
     }
 }

@@ -28,7 +28,7 @@ final class MyAppViewModel {
         await fetchList()
         isLoading = false
         
-        for await _ in myAppSwiftData.publisher().values {
+        for await _ in myAppSwiftData.publisher.values {
             await fetchList()
         }
     }

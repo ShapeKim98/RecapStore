@@ -18,7 +18,8 @@ final class RSAppCellViewModel {
     private var time: CFAbsoluteTime = CFAbsoluteTimeGetCurrent()
     @ObservationIgnored
     private var downloadTask: Task<Void, Never>?
-    @ObservationIgnored
+    
+    private let networkMonitor = NetworkMonitor.shared
     private let myAppSwiftData = MyAppModelSwiftData.shared
     
     let app: RSAppCellDisplayable
@@ -57,6 +58,19 @@ final class RSAppCellViewModel {
             downloadState = .again
         } else {
             downloadState = .resume
+        }
+    }
+    
+    @Sendable
+    func bodyTask() async {
+        let publisher = await networkMonitor.publisher
+        for await path in publisher {
+            guard case .progress = downloadState else { continue }
+            let connected = path.status == .satisfied
+            
+            if !connected {
+                pauseDownload()
+            }
         }
     }
 }

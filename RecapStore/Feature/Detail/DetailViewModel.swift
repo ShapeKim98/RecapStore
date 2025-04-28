@@ -25,6 +25,7 @@ final class DetailViewModel: NSObject {
     @ObservationIgnored
     weak var delegate: DetailViewModelDelegate?
     
+    private let networkMonitor = NetworkMonitor.shared
     private let itunesClient = ItunesClient.shared
     private let trackId: Int
     
@@ -69,6 +70,20 @@ final class DetailViewModel: NSObject {
     @Sendable
     func progressViewTask() async {
         await fetchLookup()
+    }
+    
+    @Sendable
+    func bodyTask() async {
+        let publisher = await networkMonitor.publisher
+        for await path in publisher {
+            guard case .progress = downloadState else { continue }
+            let connected = path.status == .satisfied
+            
+            if !connected {
+                pauseDownload()
+                delegate?.detailViewModelDownloadButtonAction()
+            }
+        }
     }
 }
 
