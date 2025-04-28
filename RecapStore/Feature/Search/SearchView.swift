@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SearchView: View {
-    @Environment(\.searchNavigation)
-    private var navigation
+//    @Environment(\.searchNavigation)
+//    private var navigation
     @Bindable
     private var viewModel: SearchViewModel
     
@@ -23,6 +23,8 @@ struct SearchView: View {
     var body: some View {
         NavigationStack(path: $path, root: root)
             .animation(.smooth, value: viewModel.isLoading)
+            .searchable(text: $viewModel.searchableText)
+            .onSubmit(of: .search, viewModel.searchOnSubmit)
             .task(bodyTask)
     }
 }
@@ -36,10 +38,14 @@ private extension SearchView {
                 .controlSize(.regular)
         } else {
             ScrollView(content: content)
-                .task(viewModel.scrollViewTask)
+                .navigationTitle("검색")
                 .navigationBarTitleDisplayMode(.inline)
-                .searchable(text: $viewModel.searchableText)
-                .onSubmit(of: .search, viewModel.searchOnSubmit)
+                .navigationDestination(for: SearchPath.self) { path in
+                    switch path {
+                    case let .appDetail(viewModel):
+                        DetailView(viewModel: viewModel)
+                    }
+                }
         }
     }
     
@@ -47,7 +53,7 @@ private extension SearchView {
         LazyVStack {
             searchResultSection
             
-            if viewModel.results.count < 200 && !viewModel.results.isEmpty {
+            if viewModel.hasNext && !viewModel.results.isEmpty {
                 ProgressView()
                     .controlSize(.regular)
                     .task(viewModel.progressViewTask)
@@ -59,7 +65,23 @@ private extension SearchView {
     var searchResultSection: some View {
         LazyVStack(spacing: 32) {
             ForEach(viewModel.results, id: \.trackId) { result in
-                SearchResultCell(result: result)
+                let viewModel = RSAppCellViewModel(app: result)
+                
+                Button {
+                    let detailViewModel = DetailViewModel(
+                        trackId: result.trackId,
+                        downloadState: viewModel.downloadState
+                    )
+                    detailViewModel.delegate = viewModel
+//                    navigation.push(.appDetail(viewModel: detailViewModel))
+                    path.append(.appDetail(viewModel: detailViewModel))
+                } label: {
+                    SearchResultCell(
+                        result: result,
+                        viewModel: viewModel
+                    )
+                }
+                .buttonStyle(.plain)
             }
         }
     }
@@ -71,14 +93,18 @@ private extension SearchView {
         @State
         private var result: SearchResult
         
-        init(result: SearchResult) {
+        private let viewModel: RSAppCellViewModel
+        
+        init(
+            result: SearchResult,
+            viewModel: RSAppCellViewModel
+        ) {
             self.result = result
+            self.viewModel = viewModel
         }
         
         var body: some View {
             VStack(spacing: 16) {
-                let viewModel = RSAppCellViewModel(app: result)
-                
                 RSAppCellView(viewModel: viewModel)
                 
                 information
@@ -141,16 +167,17 @@ private extension SearchView {
 private extension SearchView {
     @Sendable
     func bodyTask() async {
-        for await action in navigation.publisher() {
-            switch action {
-            case let .push(path):
-                self.path.append(path)
-            case .pop:
-                let _ = self.path.popLast()
-            case .popAll:
-                self.path.removeAll()
-            }
-        }
+//        for await action in navigation.publisher() {
+//            print(#function)
+//            switch action {
+//            case let .push(path):
+//                self.path.append(path)
+//            case .pop:
+//                let _ = self.path.popLast()
+//            case .popAll:
+//                self.path.removeAll()
+//            }
+//        }
     }
 }
 

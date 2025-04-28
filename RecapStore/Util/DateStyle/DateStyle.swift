@@ -9,6 +9,7 @@ import Foundation
 
 enum DateStyle: String, CaseIterable {
     case myAppDate = "yyyy. M. d."
+    case releaseDate = "yyyy-MM-dd'T'hh:mm:ssZ"
     
     static var cachedFormatter: [DateStyle: DateFormatter] {
         var formatters = [DateStyle: DateFormatter]()

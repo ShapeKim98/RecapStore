@@ -8,22 +8,28 @@
 import SwiftUI
 
 private struct RSImageStyle: ViewModifier {
+    private let radius: CGFloat
+    
+    init(radius: CGFloat) {
+        self.radius = radius
+    }
+    
     func body(content: Content) -> some View {
         content
             .clipShape(RoundedRectangle(
-                cornerRadius: 12,
+                cornerRadius: radius,
                 style: .continuous
             ))
             .clipped()
             .overlay(.secondary.opacity(0.2), in: RoundedRectangle(
-                cornerRadius: 12,
+                cornerRadius: radius,
                 style: .continuous
             ).stroke(lineWidth: 1))
     }
 }
 
 extension View {
-    func rsImageStyle() -> some View {
-        modifier(RSImageStyle())
+    func rsImageStyle(radius: CGFloat = 12) -> some View {
+        modifier(RSImageStyle(radius: radius))
     }
 }
