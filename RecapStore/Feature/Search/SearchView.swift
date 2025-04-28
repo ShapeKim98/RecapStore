@@ -8,8 +8,8 @@
 import SwiftUI
 
 struct SearchView: View {
-    @Environment(\.searchNavigation)
-    private var navigation
+//    @Environment(\.searchNavigation)
+//    private var navigation
     @Bindable
     private var viewModel: SearchViewModel
     
@@ -36,9 +36,16 @@ private extension SearchView {
                 .controlSize(.regular)
         } else {
             ScrollView(content: content)
-                .navigationBarTitleDisplayMode(.inline)
                 .searchable(text: $viewModel.searchableText)
                 .onSubmit(of: .search, viewModel.searchOnSubmit)
+                .navigationTitle("검색")
+                .navigationBarTitleDisplayMode(.inline)
+                .navigationDestination(for: SearchPath.self) { path in
+                    switch path {
+                    case let .appDetail(viewModel):
+                        DetailView(viewModel: viewModel)
+                    }
+                }
         }
     }
     
@@ -46,7 +53,7 @@ private extension SearchView {
         LazyVStack {
             searchResultSection
             
-            if viewModel.results.count < 200 && !viewModel.results.isEmpty {
+            if viewModel.hasNext && !viewModel.results.isEmpty {
                 ProgressView()
                     .controlSize(.regular)
                     .task(viewModel.progressViewTask)
@@ -75,15 +82,24 @@ private extension SearchView {
         }
         
         var body: some View {
-            VStack(spacing: 16) {
-                let viewModel = RSAppCellViewModel(app: result)
-                
-                RSAppCellView(viewModel: viewModel)
-                
-                information
-                
-                screenShots
+            let viewModel = RSAppCellViewModel(app: result)
+            let detailViewModel = DetailViewModel(trackId: result.trackId)
+            let value = SearchPath.appDetail(viewModel: detailViewModel)
+            
+            NavigationLink(value: value) {
+                VStack(spacing: 16) {
+                    
+                    RSAppCellView(viewModel: viewModel)
+                    
+                    information
+                    
+                    screenShots
+                }
             }
+            .buttonStyle(.plain)
+            .simultaneousGesture(TapGesture().onEnded {
+                
+            })
             .task(bodyTask)
         }
         
@@ -140,16 +156,17 @@ private extension SearchView {
 private extension SearchView {
     @Sendable
     func bodyTask() async {
-        for await action in navigation.publisher() {
-            switch action {
-            case let .push(path):
-                self.path.append(path)
-            case .pop:
-                let _ = self.path.popLast()
-            case .popAll:
-                self.path.removeAll()
-            }
-        }
+//        for await action in navigation.publisher() {
+//            print(#function)
+//            switch action {
+//            case let .push(path):
+//                self.path.append(path)
+//            case .pop:
+//                let _ = self.path.popLast()
+//            case .popAll:
+//                self.path.removeAll()
+//            }
+//        }
     }
 }
 

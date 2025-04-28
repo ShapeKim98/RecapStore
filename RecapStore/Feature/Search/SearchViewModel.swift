@@ -5,16 +5,18 @@
 //  Created by 김도형 on 4/27/25.
 //
 
-import SwiftUI
+import Foundation
+import Observation
 
 @MainActor
 @Observable
 final class SearchViewModel {
-    let itunesClient = ItunesClient.shared
+    private let itunesClient = ItunesClient.shared
     
     var results: [SearchResult] = []
-    var searchableText: String = ""
-    var isLoading: Bool = false
+    var searchableText = ""
+    var isLoading = false
+    var hasNext = true
     
     func searchOnSubmit() {
         results.removeAll()
@@ -40,6 +42,7 @@ private extension SearchViewModel {
                 offset: results.count
             )
             let results = try await itunesClient.search(request)
+            hasNext = results.count >= 25
             self.results.append(contentsOf: results)
         } catch {
             print(error)

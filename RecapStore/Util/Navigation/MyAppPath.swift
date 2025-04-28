@@ -7,8 +7,8 @@
 
 import SwiftUI
 
-enum MyAppPath: Sendable {
-    case appDetail
+enum MyAppPath: Hashable, Sendable {
+    case appDetail(viewModel: DetailViewModel)
 }
 
 extension EnvironmentValues {
