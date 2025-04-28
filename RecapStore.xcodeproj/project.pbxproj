@@ -99,11 +99,12 @@
 				};
 			};
 			buildConfigurationList = C9623F4C2DBB719E0080573B /* Build configuration list for PBXProject "RecapStore" */;
-			developmentRegion = en;
+			developmentRegion = ko;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
 				Base,
+				ko,
 			);
 			mainGroup = C9623F482DBB719E0080573B;
 			minimizedProjectReferenceProxies = 1;
